@@ -29,6 +29,14 @@ export class App {
         return this.agentService.getAgent(agent.id);
     }
 
+    public async getAgentList(state?: AgentState): Promise<Array<Agent>> {
+        return await this.agentService.getAgentList(state);
+    }
+
+    public async getAgent(id: string): Promise<Agent> {
+        return await this.agentService.getAgent(id);
+    }
+
     public async createIssue(title: string, description: string, userId: string): Promise<Issue> {
         let user = await this.userService.getUser(userId);
         let issue = await this.issueService.createIssue(title, description, user);

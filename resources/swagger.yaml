@@ -78,7 +78,7 @@ paths:
     x-controller: "agentController"
     post:
       tags:
-        - "Support Agent"
+        - "Agent"
       summary: "creates a new support agent"
       description: "creates a new support agent"
       operationId: "createAgent"
@@ -96,6 +96,46 @@ paths:
           description: "Successful"
           schema:
             $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"
+    get:
+      tags:
+        - "Agent"
+      summary: "get Agent"
+      description: "Get Agent"
+      operationId: "getAgent"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: Agent
+          schema:
+            $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /agent/list:
+    x-controller: "agentController"
+    get:
+      tags:
+        - "Agent"
+      summary: "get Agent"
+      description: "Get Agent"
+      operationId: "getAgentList"
+      parameters:
+        - name: state
+          type: string
+          enum: [FREE, BUSY]
+          in: query
+      responses:
+        200:
+          description: array of agents
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Agent"
         500:
           $ref: "#/responses/UnexpectedError"
 
