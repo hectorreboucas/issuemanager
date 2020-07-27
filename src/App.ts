@@ -44,8 +44,12 @@ export class App {
         return this.issueService.getIssue(issue.id);
     }
 
-    public async getIssue(filter: IssueFilter): Promise<Array<Issue>> {
+    public async getIssueList(filter: IssueFilter): Promise<Array<Issue>> {
         return await this.issueService.getIssueList(filter);
+    }
+
+    public async getIssue(id: string): Promise<Issue> {
+        return await this.issueService.getIssue(id);
     }
 
     public async resolveIssue(issueId: string) {

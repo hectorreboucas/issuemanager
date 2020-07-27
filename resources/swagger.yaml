@@ -25,18 +25,6 @@ paths:
           in: query
           type: string
           required: false
-        - name: agentId
-          in: query
-          type: string
-          required: false
-        - name: state
-          type: string
-          enum: [UNASSIGNED, ASSIGNED, RESOLVED]
-          in: query
-        - name: userId
-          in: query
-          type: string
-          required: false
       responses:
         200:
           description: array of issues
@@ -71,6 +59,36 @@ paths:
           description: "Successful"
           schema:
             $ref: "#/definitions/Issue"
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /issue/list:
+    x-controller: "issueController"
+    get:
+      tags:
+        - "Issue"
+      summary: "get issue"
+      description: "Get Status"
+      operationId: "getIssueList"
+      parameters:
+        - name: agentId
+          in: query
+          type: string
+          required: false
+        - name: state
+          type: string
+          enum: [UNASSIGNED, ASSIGNED, RESOLVED]
+          in: query
+        - name: userId
+          in: query
+          type: string
+          required: false
+      responses:
+        200:
+          description: array of issues
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Issue"
         500:
           $ref: "#/responses/UnexpectedError"
           
