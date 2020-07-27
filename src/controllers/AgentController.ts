@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { App } from '../App';
 import { AgentState } from '../model/Agent';
+import { ItemNotFound } from '../exceptions/ItemNotFound';
 
 export class AgentController {
     app: App;
@@ -22,9 +23,15 @@ export class AgentController {
     }
 
     getAgent = async (req: Request, res: Response, next: NextFunction) => {
-        const { id } = req.query;
-        let agentList = await this.app.getAgent(id as string);
-        res.json(agentList);
+        try {
+            const { id } = req.query;
+            let agent = await this.app.getAgent(id as string);
+            if(!agent)
+                throw new ItemNotFound();
+            res.json(agent);
+        }catch(e){
+            next(e);
+        }
     }
 
 }

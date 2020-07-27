@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { App } from '../App';
+import { ItemNotFound } from '../exceptions/ItemNotFound';
 
 export class IssueController {
     app: App;
@@ -9,10 +10,16 @@ export class IssueController {
     }
 
     getIssue = async (req: Request, res: Response, next: NextFunction) => {
-        let { id } = req.query;
-        let issueList = await this.app.getIssue(id as string);
-        res.json(issueList);
-        res.send();
+        try {
+            let { id } = req.query;
+            let issue = await this.app.getIssue(id as string);
+            if(!issue)
+                throw new ItemNotFound();
+            res.json(issue);
+            res.send();
+        } catch (e) {
+            next(e);
+        }
     }
 
     getIssueList = async (req: Request, res: Response, next: NextFunction) => {

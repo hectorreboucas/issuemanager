@@ -32,6 +32,8 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Issue"
+        404:
+          $ref: "#/responses/NotFound"  
         500:
           $ref: "#/responses/UnexpectedError"
     post:
@@ -132,6 +134,8 @@ paths:
           description: Agent
           schema:
             $ref: "#/definitions/Agent"
+        404:
+          $ref: "#/responses/NotFound"  
         500:
           $ref: "#/responses/UnexpectedError"
   /agent/list:
@@ -139,8 +143,8 @@ paths:
     get:
       tags:
         - "Agent"
-      summary: "get Agent"
-      description: "Get Agent"
+      summary: "get Agent List"
+      description: "Get Agent List"
       operationId: "getAgentList"
       parameters:
         - name: state
@@ -175,6 +179,8 @@ paths:
           description: Agent
           schema:
             $ref: "#/definitions/Agent"
+        404:
+          $ref: "#/responses/NotFound"  
         500:
           $ref: "#/responses/UnexpectedError"    
     post:
@@ -196,7 +202,7 @@ paths:
         200:
           description: "Successful"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/User"          
         500:
           $ref: "#/responses/UnexpectedError"
   /user/list:
@@ -221,6 +227,10 @@ paths:
 responses:
   UnexpectedError:
     description: "Unexpected error"
+    schema:
+      $ref: "#/definitions/Error"
+  NotFound:
+    description: "not found"
     schema:
       $ref: "#/definitions/Error"
 
@@ -268,14 +278,8 @@ definitions:
         type: string
       name:
         type: string
-        
   Error:
     type: "object"
     properties:
-      code:
-        type: "integer"
-        format: "int32"
       message:
-        type: "string"
-      fields:
         type: "string"
