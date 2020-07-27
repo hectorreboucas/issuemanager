@@ -1,0 +1,188 @@
+---
+swagger: "2.0"
+info:
+  description: "Issue Manager API"
+  version: "1.0.0"
+  title: "Issue Manager API"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+produces:
+- "application/json"
+paths:
+  /issue:
+    x-controller: "issueController"
+    get:
+      tags:
+        - "Issue"
+      summary: "get issue"
+      description: "Get Status"
+      operationId: "getIssue"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: false
+        - name: agentId
+          in: query
+          type: string
+          required: false
+        - name: state
+          type: string
+          enum: [UNASSIGNED, ASSIGNED, RESOLVED]
+          in: query
+        - name: userId
+          in: query
+          type: string
+          required: false
+      responses:
+        200:
+          description: array of issues
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Issue"
+        500:
+          $ref: "#/responses/UnexpectedError"
+    post:
+      tags:
+        - "Issue"
+      summary: "create issue"
+      description: "create issue"
+      operationId: "createIssue"
+      parameters:
+        - name: issue
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              userId:
+                type: string                
+      
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/Issue"
+        500:
+          $ref: "#/responses/UnexpectedError"
+          
+  /agent:
+    x-controller: "agentController"
+    post:
+      tags:
+        - "Support Agent"
+      summary: "creates a new support agent"
+      description: "creates a new support agent"
+      operationId: "createAgent"
+      parameters:
+        - name: agent
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"
+
+  /user:
+    x-controller: "userController"
+    post:
+      tags:
+        - "User"
+      summary: "Create a new user"
+      description: "Create a new user"
+      operationId: "createUser"
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/User"
+        500:
+          $ref: "#/responses/UnexpectedError"
+
+# define reusable parameters:
+responses:
+  UnexpectedError:
+    description: "Unexpected error"
+    schema:
+      $ref: "#/definitions/Error"
+
+definitions:
+  Issue:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      state:
+        type: string
+        enum: [UNSSIGNED, ASSIGNED, "RESOLVED"]
+      userId:
+        type: string
+      userName:
+        type: string        
+      agentId:
+        type: string
+      agentName:
+        type: string
+      createAt:
+        type: string
+      assignedAt:
+        type: string
+      solvedAt:
+        type: string
+  Agent:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      state:
+        type: string
+        enum: [free, busy]
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+        
+  Error:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+      fields:
+        type: "string"
