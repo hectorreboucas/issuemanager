@@ -9,8 +9,15 @@ export class IssueController {
     }
 
     getIssue = async (req: Request, res: Response, next: NextFunction) => {
+        let { id } = req.query;
+        let issueList = await this.app.getIssue(id as string);
+        res.json(issueList);
+        res.send();
+    }
+
+    getIssueList = async (req: Request, res: Response, next: NextFunction) => {
         let filter = req.query;
-        let issueList = await this.app.getIssue(filter);
+        let issueList = await this.app.getIssueList(filter);
         res.json(issueList);
         res.send();
     }
@@ -21,7 +28,7 @@ export class IssueController {
             let issue = await this.app.createIssue(title, description, userId);
             res.json(issue);
             res.send();
-        }catch(e){
+        } catch (e) {
             console.log(e);
             res.status(404);
             res.send();

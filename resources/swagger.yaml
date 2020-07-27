@@ -25,18 +25,6 @@ paths:
           in: query
           type: string
           required: false
-        - name: agentId
-          in: query
-          type: string
-          required: false
-        - name: state
-          type: string
-          enum: [UNASSIGNED, ASSIGNED, RESOLVED]
-          in: query
-        - name: userId
-          in: query
-          type: string
-          required: false
       responses:
         200:
           description: array of issues
@@ -73,12 +61,42 @@ paths:
             $ref: "#/definitions/Issue"
         500:
           $ref: "#/responses/UnexpectedError"
+  /issue/list:
+    x-controller: "issueController"
+    get:
+      tags:
+        - "Issue"
+      summary: "get issue"
+      description: "Get Status"
+      operationId: "getIssueList"
+      parameters:
+        - name: agentId
+          in: query
+          type: string
+          required: false
+        - name: state
+          type: string
+          enum: [UNASSIGNED, ASSIGNED, RESOLVED]
+          in: query
+        - name: userId
+          in: query
+          type: string
+          required: false
+      responses:
+        200:
+          description: array of issues
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Issue"
+        500:
+          $ref: "#/responses/UnexpectedError"
           
   /agent:
     x-controller: "agentController"
     post:
       tags:
-        - "Support Agent"
+        - "Agent"
       summary: "creates a new support agent"
       description: "creates a new support agent"
       operationId: "createAgent"
@@ -98,9 +116,67 @@ paths:
             $ref: "#/definitions/Agent"
         500:
           $ref: "#/responses/UnexpectedError"
+    get:
+      tags:
+        - "Agent"
+      summary: "get Agent"
+      description: "Get Agent"
+      operationId: "getAgent"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: Agent
+          schema:
+            $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /agent/list:
+    x-controller: "agentController"
+    get:
+      tags:
+        - "Agent"
+      summary: "get Agent"
+      description: "Get Agent"
+      operationId: "getAgentList"
+      parameters:
+        - name: state
+          type: string
+          enum: [FREE, BUSY]
+          in: query
+      responses:
+        200:
+          description: array of agents
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"
 
   /user:
     x-controller: "userController"
+    get:
+      tags:
+        - "User"
+      summary: "get User"
+      description: "Get User"
+      operationId: "getUser"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: Agent
+          schema:
+            $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"    
     post:
       tags:
         - "User"
@@ -123,6 +199,23 @@ paths:
             $ref: "#/definitions/User"
         500:
           $ref: "#/responses/UnexpectedError"
+  /user/list:
+    x-controller: "userController"
+    get:
+      tags:
+        - "User"
+      summary: "get User List"
+      description: "Get User List"
+      operationId: "getUserList"
+      responses:
+        200:
+          description: Agent
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        500:
+          $ref: "#/responses/UnexpectedError"  
 
 # define reusable parameters:
 responses:

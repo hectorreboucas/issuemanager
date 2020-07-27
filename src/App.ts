@@ -23,10 +23,26 @@ export class App {
         return this.userService.getUser(user.id);
     }
 
+    public async getUser(id: string): Promise<User> {
+        return await this.userService.getUser(id);
+    }
+
+    public async getUserList(): Promise<Array<User>> {
+        return await this.userService.getUserList();
+    }    
+
     public async createAgent(name: string): Promise<Agent> {
         let agent = await this.agentService.createAgent(name);
         await this.assignIssues();
         return this.agentService.getAgent(agent.id);
+    }
+
+    public async getAgentList(state?: AgentState): Promise<Array<Agent>> {
+        return await this.agentService.getAgentList(state);
+    }
+
+    public async getAgent(id: string): Promise<Agent> {
+        return await this.agentService.getAgent(id);
     }
 
     public async createIssue(title: string, description: string, userId: string): Promise<Issue> {
@@ -36,8 +52,12 @@ export class App {
         return this.issueService.getIssue(issue.id);
     }
 
-    public async getIssue(filter: IssueFilter): Promise<Array<Issue>> {
+    public async getIssueList(filter: IssueFilter): Promise<Array<Issue>> {
         return await this.issueService.getIssueList(filter);
+    }
+
+    public async getIssue(id: string): Promise<Issue> {
+        return await this.issueService.getIssue(id);
     }
 
     public async resolveIssue(issueId: string) {
