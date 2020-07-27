@@ -159,6 +159,24 @@ paths:
 
   /user:
     x-controller: "userController"
+    get:
+      tags:
+        - "User"
+      summary: "get User"
+      description: "Get User"
+      operationId: "getUser"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: Agent
+          schema:
+            $ref: "#/definitions/Agent"
+        500:
+          $ref: "#/responses/UnexpectedError"    
     post:
       tags:
         - "User"
@@ -181,6 +199,23 @@ paths:
             $ref: "#/definitions/User"
         500:
           $ref: "#/responses/UnexpectedError"
+  /user/list:
+    x-controller: "userController"
+    get:
+      tags:
+        - "User"
+      summary: "get User List"
+      description: "Get User List"
+      operationId: "getUserList"
+      responses:
+        200:
+          description: Agent
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        500:
+          $ref: "#/responses/UnexpectedError"  
 
 # define reusable parameters:
 responses:

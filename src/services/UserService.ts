@@ -22,4 +22,8 @@ export class UserService implements IUserService {
     async getUser(userId: string): Promise<User> {
         return await this.collection.findOne({ id: userId });
     }
+
+    async getUserList(): Promise<Array<User>> {
+        return await this.collection.find({}).toArray();
+    }
 }

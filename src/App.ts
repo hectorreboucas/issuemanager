@@ -23,6 +23,14 @@ export class App {
         return this.userService.getUser(user.id);
     }
 
+    public async getUser(id: string): Promise<User> {
+        return await this.userService.getUser(id);
+    }
+
+    public async getUserList(): Promise<Array<User>> {
+        return await this.userService.getUserList();
+    }    
+
     public async createAgent(name: string): Promise<Agent> {
         let agent = await this.agentService.createAgent(name);
         await this.assignIssues();
